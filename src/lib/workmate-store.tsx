@@ -52,7 +52,7 @@ type Ctx = State & {
   addCompletedTasks: (count: number) => void;
   updateSettings: (patch: Partial<Settings>) => void;
   importActionItems: (items: ActionItem[]) => void;
-  consumeImportedTasks: () => ActionItem[];
+  clearImportedTasks: () => ActionItem[];
 };
 
 const WorkMateContext = createContext<Ctx | null>(null);
@@ -116,8 +116,8 @@ export function WorkMateProvider({ children }: { children: ReactNode }) {
 
 
   const value = useMemo(
-    () => ({ ...state, logActivity, addCompletedTasks, updateSettings, importActionItems, consumeImportedTasks }),
-    [state, logActivity, addCompletedTasks, updateSettings, importActionItems, consumeImportedTasks],
+    () => ({ ...state, logActivity, addCompletedTasks, updateSettings, importActionItems, clearImportedTasks }),
+    [state, logActivity, addCompletedTasks, updateSettings, importActionItems, clearImportedTasks],
   );
 
   return <WorkMateContext.Provider value={value}>{children}</WorkMateContext.Provider>;
