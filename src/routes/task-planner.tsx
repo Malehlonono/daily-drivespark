@@ -73,7 +73,7 @@ function PriorityBadge({ value }: { value: string }) {
 }
 
 function PlannerPage() {
-  const { logActivity, addCompletedTasks, consumeImportedTasks, importedTasks } = useWorkMate();
+  const { logActivity, addCompletedTasks, clearImportedTasks, importedTasks } = useWorkMate();
   const run = useServerFn(createPlan);
 
   const [tasks, setTasks] = useState<TaskRow[]>([newRow()]);
@@ -88,8 +88,8 @@ function PlannerPage() {
 
   useEffect(() => {
     if (!importedTasks.length) return;
-    const imported = consumeImportedTasks();
-    if (!imported.length) return;
+    const imported = importedTasks;
+    clearImportedTasks();
     setTasks((prev) => {
       const kept = prev.filter((t) => t.name.trim());
       return [
@@ -104,7 +104,8 @@ function PlannerPage() {
       ];
     });
     toast.success(`${imported.length} action item(s) imported from your meeting`);
-  }, [importedTasks, consumeImportedTasks]);
+  }, [importedTasks, clearImportedTasks]);
+
 
   function update(id: string, patch: Partial<TaskRow>) {
     setTasks((prev) => prev.map((t) => (t.id === id ? { ...t, ...patch } : t)));

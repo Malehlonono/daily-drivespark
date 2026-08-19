@@ -52,7 +52,7 @@ type Ctx = State & {
   addCompletedTasks: (count: number) => void;
   updateSettings: (patch: Partial<Settings>) => void;
   importActionItems: (items: ActionItem[]) => void;
-  clearImportedTasks: () => ActionItem[];
+  clearImportedTasks: () => void;
 };
 
 const WorkMateContext = createContext<Ctx | null>(null);
