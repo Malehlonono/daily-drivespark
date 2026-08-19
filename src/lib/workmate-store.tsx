@@ -110,14 +110,10 @@ export function WorkMateProvider({ children }: { children: ReactNode }) {
     setState((prev) => ({ ...prev, importedTasks: items }));
   }, []);
 
-  const consumeImportedTasks = useCallback(() => {
-    let items: ActionItem[] = [];
-    setState((prev) => {
-      items = prev.importedTasks;
-      return prev.importedTasks.length ? { ...prev, importedTasks: [] } : prev;
-    });
-    return items;
+  const clearImportedTasks = useCallback(() => {
+    setState((prev) => (prev.importedTasks.length ? { ...prev, importedTasks: [] } : prev));
   }, []);
+
 
   const value = useMemo(
     () => ({ ...state, logActivity, addCompletedTasks, updateSettings, importActionItems, consumeImportedTasks }),
