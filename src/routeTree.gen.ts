@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MeetingSummarizerRouteImport } from './routes/meeting-summarizer'
+import { Route as SmartEmailRouteImport } from './routes/smart-email'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MeetingSummarizerRoute = MeetingSummarizerRouteImport.update({
+  id: '/meeting-summarizer',
+  path: '/meeting-summarizer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SmartEmailRoute = SmartEmailRouteImport.update({
+  id: '/smart-email',
+  path: '/smart-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/meeting-summarizer': typeof MeetingSummarizerRoute
+  '/smart-email': typeof SmartEmailRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/meeting-summarizer': typeof MeetingSummarizerRoute
+  '/smart-email': typeof SmartEmailRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/meeting-summarizer': typeof MeetingSummarizerRoute
+  '/smart-email': typeof SmartEmailRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/meeting-summarizer' | '/smart-email'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/meeting-summarizer' | '/smart-email'
+  id: '__root__' | '/' | '/meeting-summarizer' | '/smart-email'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MeetingSummarizerRoute: typeof MeetingSummarizerRoute
+  SmartEmailRoute: typeof SmartEmailRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/meeting-summarizer': {
+      id: '/meeting-summarizer'
+      path: '/meeting-summarizer'
+      fullPath: '/meeting-summarizer'
+      preLoaderRoute: typeof MeetingSummarizerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/smart-email': {
+      id: '/smart-email'
+      path: '/smart-email'
+      fullPath: '/smart-email'
+      preLoaderRoute: typeof SmartEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MeetingSummarizerRoute: MeetingSummarizerRoute,
+  SmartEmailRoute: SmartEmailRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
